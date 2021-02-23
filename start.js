@@ -132,18 +132,57 @@ async function addDepartment(){
     main()
 }
 
+
+async function addRole(){
+
+    let getDepartments = []
+    let test = await db.query("select name from tblDepartment;")
+    for(i=0; i<test.length;i++){
+    getDepartments.push(test[i].name)
+}
+
+    const roleInfo = await inquirer.prompt([
+        {
+            name: "title",
+            type:"input",
+            message: "Enter the role title"
+        },
+        {
+            name: "salary",
+            type: "number",
+            message: "Enter the annual salary"
+        },
+        {
+            name: "department",
+            type: "list",
+            message: "Choose department",
+            choices: getDepartments
+        }
+    ])
+
+    let depID = []
+    depID = await db.query(`select depID from tblDepartment where name = "${roleInfo.department}";`)
+    let roleData = [0,roleInfo.title, roleInfo.salary, depID[0].depID]
+    await db.query("insert into tblRole values (?,?,?,?)",roleData);
+    console.log("A new role has entered")
+    main()
+}
+
 async function main(){
     const response = await inquirer.prompt([
         {
             name: "options",
             type: "list",
             message: "what would you like to do?",
-            choices: ["Add Department","View All Employees","View All Employees By Department", "View All Employees By Role","View All Employees By Manager"]
+            choices: ["Add Department","Add Role","View All Employees","View All Employees By Department", "View All Employees By Role","View All Employees By Manager"]
         }
     ])
     
     if(response.options === "Add Department"){
         addDepartment()
+    }
+    if(response.options ==="Add Role"){
+        addRole()
     }
 
     if(response.options === "View All Employees"){
