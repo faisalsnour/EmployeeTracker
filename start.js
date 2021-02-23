@@ -86,6 +86,38 @@ async function selectDisplayRole(){
     main()
 }
 
+async function selectDisplayManager(){
+
+    let allEmployeesByManager = []
+    let test = await db.query(`select concat(E.firstName, ' ', E.lastName) as name from tblEmployee as E inner join tblRole  as R on E.roleID = R.roleID  where R.title like '%manager%';
+    `)
+    for(i=0; i<test.length;i++){
+        allEmployeesByManager.push(test[i].name)
+    }
+        const manager = await inquirer.prompt([
+            {
+                name: "options",
+                type: "list",
+                message: "Select a Manager name",
+                choices: allEmployeesByManager,
+            }
+        ])
+
+
+    let employeesByManager
+
+    employeesByManager = await db.query(`select E.empID as ID, E.firstName as First_Name, E.lastName as Last_Name, R.title as Title, D.name as Department , R.salary as Salary ,concat(M.firstName, ' ', M.lastName) as Manager 
+    from tblEmployee as E 
+    left join tblEmployee as M 
+    on E.ManagerID = M.empID
+    left join tblRole as R
+    on E.roleID =  R.roleID 
+    left join tblDepartment as D
+    on R.departmentID = D.depID where concat(M.firstName, ' ', M.lastName) = "${manager.options}";`)
+    console.log(employeesByManager)
+    main()
+}
+
 async function main(){
     const response = await inquirer.prompt([
         {
@@ -105,6 +137,9 @@ async function main(){
     }
     if(response.options ==="View All Employees By Role"){
         selectDisplayRole();   
+    }
+    if(response.options ==="View All Employees By Manager"){
+        selectDisplayManager()
     }
 }
 
