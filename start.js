@@ -1,9 +1,6 @@
 var inquirer = require('inquirer')
 
-
 const db = require( './app/connection' )('employee_db','rootroot')
-
-
 
 async function viewAllEmployee(){
 
@@ -53,7 +50,6 @@ for(i=0; i<test.length;i++){
     main()
 }
 
-
 async function selectDisplayRole(){
     let allRoles = []
     let test = await db.query("select title from tblRole;")
@@ -68,7 +64,6 @@ async function selectDisplayRole(){
                 choices: allRoles,
             }
         ])
-
 
     let employeesByRole
 
@@ -101,7 +96,6 @@ async function selectDisplayManager(){
             }
         ])
 
-
     let employeesByManager
 
     employeesByManager = await db.query(`select E.empID as ID, E.firstName as First_Name, E.lastName as Last_Name, R.title as Title, D.name as Department , R.salary as Salary ,concat(M.firstName, ' ', M.lastName) as Manager 
@@ -115,7 +109,6 @@ async function selectDisplayManager(){
     console.log(employeesByManager)
     main()
 }
-
 
 async function addDepartment(){
     const depName = await inquirer.prompt([
@@ -131,7 +124,6 @@ async function addDepartment(){
     console.log("new department has been entered")
     main()
 }
-
 
 async function addRole(){
 
@@ -168,13 +160,18 @@ async function addRole(){
     main()
 }
 
+// complete this function
+async function addEmployee(){
+
+}
+
 async function main(){
     const response = await inquirer.prompt([
         {
             name: "options",
             type: "list",
             message: "what would you like to do?",
-            choices: ["Add Department","Add Role","View All Employees","View All Employees By Department", "View All Employees By Role","View All Employees By Manager"]
+            choices: ["Add Department","Add Role","Add Employee","View All Employees","View All Employees By Department", "View All Employees By Role","View All Employees By Manager"]
         }
     ])
     
@@ -184,7 +181,9 @@ async function main(){
     if(response.options ==="Add Role"){
         addRole()
     }
-
+    if(response.options ==="Add Employee"){
+        addEmployee()
+    }
     if(response.options === "View All Employees"){
         viewAllEmployee();
     }
