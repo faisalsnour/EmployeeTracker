@@ -8,8 +8,6 @@ const db = require( './app/connection' )('employee_db','rootroot')
 async function viewAllEmployee(){
 
  let result;
-//  result =  await db.query("select * from tblEmployee;");
-//  console.log(result);
 
 result = await db.query(`select E.empID as ID, E.firstName as First_Name, E.lastName as Last_Name, R.title as Title, D.name as Department , R.salary as Salary ,concat(M.firstName, ' ', M.lastName) as Manager 
 from tblEmployee as E 
@@ -118,15 +116,35 @@ async function selectDisplayManager(){
     main()
 }
 
+
+async function addDepartment(){
+    const depName = await inquirer.prompt([
+        {
+            name: "department",
+            type: "input",
+            message: "Enter the department name",
+        }
+    ])
+
+    const data = [0,depName.department];
+    let departmentName = await db.query("insert into tblDepartment values (?,?);",data)
+    console.log("new department has been entered")
+    main()
+}
+
 async function main(){
     const response = await inquirer.prompt([
         {
             name: "options",
             type: "list",
             message: "what would you like to do?",
-            choices: ["View All Employees","View All Employees By Department", "View All Employees By Role","View All Employees By Manager"]
+            choices: ["Add Department","View All Employees","View All Employees By Department", "View All Employees By Role","View All Employees By Manager"]
         }
     ])
+    
+    if(response.options === "Add Department"){
+        addDepartment()
+    }
 
     if(response.options === "View All Employees"){
         viewAllEmployee();
