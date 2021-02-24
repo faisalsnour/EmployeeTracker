@@ -231,8 +231,8 @@ async function addEmployee(){
 async function updateEmployeeRole(){
 
 
-    getEmployees = []
-    getEmployeesName = []
+    let getEmployees = []
+    let getEmployeesName = []
 
     let employee = await db.query(`select empID, concat(firstName, ' ', lastName) as name 
     from tblEmployee;`)
@@ -241,13 +241,31 @@ async function updateEmployeeRole(){
     getEmployees.push(employee[b])
     }
 
+    let getAllRoles = []
+    let getRolesName = []
+    let getRoles = await db.query("select roleID, title from tblRole;")
+    for(x=0; x<getRoles.length;x++){
+    getRolesName.push(getRoles[x].title)
+    getAllRoles.push(getRoles[x])
+    }
+
+
     const employeeInfo = await inquirer.prompt([
         {
             name: "employee",
             type: "list",
-            message: "Select",
+            message: "Select an employee",
             choices: getEmployeesName
-        }])
+        },
+        {
+            name: "newRole",
+            type: "list",
+            message: "Select new role",
+            choices: getRolesName
+        }
+    ])
+
+    
 }
 
 async function main(){
