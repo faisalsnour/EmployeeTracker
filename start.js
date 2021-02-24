@@ -160,9 +160,7 @@ async function addRole(){
     main()
 }
 
-
-
-// complete this function
+// function to add new employee
 async function addEmployee(){
 
     let roleID;
@@ -226,6 +224,30 @@ async function addEmployee(){
 
     console.log("new employee has been entered")
 
+    main()
+
+}
+
+async function updateEmployeeRole(){
+
+
+    getEmployees = []
+    getEmployeesName = []
+
+    let employee = await db.query(`select empID, concat(firstName, ' ', lastName) as name 
+    from tblEmployee;`)
+    for(b=0; b<employee.length;b++){
+    getEmployeesName.push(employee[b].name)
+    getEmployees.push(employee[b])
+    }
+
+    const employeeInfo = await inquirer.prompt([
+        {
+            name: "employee",
+            type: "list",
+            message: "Select",
+            choices: getEmployeesName
+        }])
 }
 
 async function main(){
@@ -234,7 +256,7 @@ async function main(){
             name: "options",
             type: "list",
             message: "what would you like to do?",
-            choices: ["Add Department","Add Role","Add Employee","View All Employees","View All Employees By Department", "View All Employees By Role","View All Employees By Manager"]
+            choices: ["Add Department","Add Role","Add Employee","Update Employee Role","View All Employees","View All Employees By Department", "View All Employees By Role","View All Employees By Manager"]
         }
     ])
     
@@ -246,6 +268,9 @@ async function main(){
     }
     if(response.options ==="Add Employee"){
         addEmployee()
+    }
+    if(response.options ==="Update Employee Role"){
+        updateEmployeeRole()
     }
     if(response.options === "View All Employees"){
         viewAllEmployee();
