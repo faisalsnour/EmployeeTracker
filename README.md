@@ -25,7 +25,7 @@ The following pictures show the application's appearance and functionality;
 
 ## Link to a walkthrough video
 
-[please click here]()
+[please click here](https://www.youtube.com/watch?v=AQEe-2J218Q)
 
 ## Link to the generated readme file:
 
