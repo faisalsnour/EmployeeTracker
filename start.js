@@ -250,7 +250,7 @@ async function updateEmployeeRole(){
     }
 
 
-    const employeeInfo = await inquirer.prompt([
+    const employeeUpdateRole = await inquirer.prompt([
         {
             name: "employee",
             type: "list",
@@ -265,7 +265,25 @@ async function updateEmployeeRole(){
         }
     ])
 
+    let targetedEmployeeID;
+
+    for(h=0; h<getEmployees.length; h++){
+        if(employeeUpdateRole.employee === getEmployees[h].name){
+            targetedEmployeeID = getEmployees[h].empID
+        }
+    }
+
+    let updatedRoleID;
+
+    for(k=0; k<getAllRoles.length; k++){
+        if(employeeUpdateRole.newRole === getAllRoles[k].title){
+            updatedRoleID = getAllRoles[k].roleID
+        }
+    }
     
+    await db.query(`update tblEmployee set roleID = ${updatedRoleID} where empID = ${targetedEmployeeID};`)
+    console.log("Employee role has been updated")
+    main()
 }
 
 async function main(){
