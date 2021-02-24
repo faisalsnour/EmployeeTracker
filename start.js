@@ -2,6 +2,7 @@ var inquirer = require('inquirer')
 
 const db = require( './app/connection' )('employee_db','rootroot')
 
+// function that return all employees
 async function viewAllEmployee(){
 
  let result;
@@ -20,6 +21,7 @@ main()
 
 }
 
+// function to display all employee by department 
 async function selectDisplayDepartment(){
 
 let allDepartments = []
@@ -50,6 +52,7 @@ for(i=0; i<test.length;i++){
     main()
 }
 
+// function that display all employees by role
 async function selectDisplayRole(){
     let allRoles = []
     let test = await db.query("select title from tblRole;")
@@ -79,6 +82,7 @@ async function selectDisplayRole(){
     main()
 }
 
+// function to display all employees by selecting a manager
 async function selectDisplayManager(){
 
     let allEmployeesByManager = []
@@ -110,6 +114,7 @@ async function selectDisplayManager(){
     main()
 }
 
+// function to add new department
 async function addDepartment(){
     const depName = await inquirer.prompt([
         {
@@ -125,6 +130,7 @@ async function addDepartment(){
     main()
 }
 
+// function to add new role 
 async function addRole(){
 
     let getDepartments = []
@@ -227,9 +233,8 @@ async function addEmployee(){
     main()
 
 }
-
+// function to update an existing employee's role 
 async function updateEmployeeRole(){
-
 
     let getEmployees = []
     let getEmployeesName = []
@@ -286,6 +291,7 @@ async function updateEmployeeRole(){
     main()
 }
 
+// function that executes immediately after running the application 
 async function main(){
     const response = await inquirer.prompt([
         {
@@ -322,12 +328,4 @@ async function main(){
         selectDisplayManager()
     }
 }
-// async function test(){
-// let allDepartments = []
-// let test = await db.query("select name from tblDepartment;")
-// for(i=0; i<test.length;i++){
-//    allDepartments.push(test[i].name)
-// }
-// console.log(allDepartments)
-// }
 main()
