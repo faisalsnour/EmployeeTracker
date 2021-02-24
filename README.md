@@ -19,9 +19,9 @@ The application does the following:
 
 The following pictures show the application's appearance and functionality;
 
-![Screen shows ..](/Assets/.png)
+![Screen shows a list of main options for user when running the application](/Assets/main-options.png)
 
-![Screen shows ..](/Assets/.png)
+![Screen shows all employees and their information ..](/Assets/view-all-employees.png)
 
 ![Screen shows ..](/Assets/.png)
 
