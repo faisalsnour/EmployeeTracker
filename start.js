@@ -1,4 +1,5 @@
 var inquirer = require('inquirer')
+const cTable = require('console.table')
 
 const db = require( './app/connection' )('employee_db','rootroot')
 
@@ -16,7 +17,7 @@ on E.roleID =  R.roleID
 left join tblDepartment as D
 on R.departmentID = D.depID;`)
 
-console.log(result)
+console.table(result)
 main()
 
 }
@@ -48,7 +49,7 @@ for(i=0; i<test.length;i++){
     on E.roleID =  R.roleID 
     left join tblDepartment as D
     on R.departmentID = D.depID where D.name = "${department.options}"; `)
-    console.log(employeesByDepartment);
+    console.table(employeesByDepartment);
     main()
 }
 
@@ -78,7 +79,7 @@ async function selectDisplayRole(){
     on E.roleID =  R.roleID 
     left join tblDepartment as D
     on R.departmentID = D.depID where R.title = "${role.options}"; `)
-    console.log(employeesByRole)
+    console.table(employeesByRole)
     main()
 }
 
@@ -110,7 +111,7 @@ async function selectDisplayManager(){
     on E.roleID =  R.roleID 
     left join tblDepartment as D
     on R.departmentID = D.depID where concat(M.firstName, ' ', M.lastName) = "${manager.options}";`)
-    console.log(employeesByManager)
+    console.table(employeesByManager)
     main()
 }
 
@@ -126,7 +127,7 @@ async function addDepartment(){
 
     const data = [0,depName.department];
     let departmentName = await db.query("insert into tblDepartment values (?,?);",data)
-    console.log("new department has been entered")
+    console.log("New department has been entered")
     main()
 }
 
@@ -162,7 +163,7 @@ async function addRole(){
     depID = await db.query(`select depID from tblDepartment where name = "${roleInfo.department}";`)
     let roleData = [0,roleInfo.title, roleInfo.salary, depID[0].depID]
     await db.query("insert into tblRole values (?,?,?,?)",roleData);
-    console.log("A new role has entered")
+    console.log("New role has entered")
     main()
 }
 
@@ -298,7 +299,7 @@ async function main(){
             name: "options",
             type: "list",
             message: "what would you like to do?",
-            choices: ["Add Department","Add Role","Add Employee","Update Employee Role","View All Employees","View All Employees By Department", "View All Employees By Role","View All Employees By Manager"]
+            choices: ["Add Department","Add Role","Add Employee","Update Employee Role","View All Employees","View All Employees By Department", "View All Employees By Role","View All Employees By Manager","Exit Application"]
         }
     ])
     
@@ -326,6 +327,9 @@ async function main(){
     }
     if(response.options ==="View All Employees By Manager"){
         selectDisplayManager()
+    }
+    if(response.options ==="Exit Application"){
+        console.log("Thanks for using our application")
     }
 }
 main()
