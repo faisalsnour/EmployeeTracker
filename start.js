@@ -160,8 +160,71 @@ async function addRole(){
     main()
 }
 
+
+
 // complete this function
 async function addEmployee(){
+
+    let roleID;
+    let managerID;
+    let getRolesTitle = []
+    let getRoles = []
+    let role = await db.query("select roleID, title from tblRole;")
+    for(i=0; i<role.length;i++){
+    getRolesTitle.push(role[i].title)
+    getRoles.push(role[i])
+    }
+
+    let getManagersName = []
+    let getManagers = []
+    let managerResult = await db.query(`select empID, concat(E.firstName, ' ', E.lastName) 
+    as Name from tblEmployee as E inner join tblRole  as R on E.roleID = R.roleID  
+    where R.title like '%manager%';
+    `)
+    for(j=0; j<managerResult.length;j++){
+        getManagersName.push(managerResult[j].Name)
+        getManagers.push(managerResult[j])
+    }
+
+    const employeeInfo = await inquirer.prompt([
+        {
+            name: "firstName",
+            type:"input",
+            message: "Enter employee first name"
+        },
+        {
+            name: "lastName",
+            type: "input",
+            message: "Enter employee last name"
+        },
+        {
+            name: "title",
+            type: "list",
+            message: "Choose role title",
+            choices: getRolesTitle
+        },
+        {
+            name: "manager",
+            type: "list",
+            message: "Assign Manager",
+            choices: getManagersName
+        }
+    ])
+    for(y=0; y<getRoles.length; y++){
+    if(getRoles[y].title === employeeInfo.title){
+        roleID = getRoles[y].roleID
+        }
+    }
+    for(x=0; x<getManagers.length; x++){
+        if(getManagers[x].Name === employeeInfo.manager ){
+            managerID = getManagers[x].empID
+        }
+    }
+    
+    employeeData = [0,employeeInfo.firstName, employeeInfo.lastName, roleID, managerID]
+    await db.query("insert into tblEmployee values (?,?,?,?,?)", employeeData )
+
+    console.log("new employee has been entered")
 
 }
 
@@ -198,14 +261,12 @@ async function main(){
         selectDisplayManager()
     }
 }
-
-async function test(){
-let allDepartments = []
-let test = await db.query("select name from tblDepartment;")
-for(i=0; i<test.length;i++){
-   allDepartments.push(test[i].name)
-}
-console.log(allDepartments)
-}
+// async function test(){
+// let allDepartments = []
+// let test = await db.query("select name from tblDepartment;")
+// for(i=0; i<test.length;i++){
+//    allDepartments.push(test[i].name)
+// }
+// console.log(allDepartments)
+// }
 main()
-// test()
