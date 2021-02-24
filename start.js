@@ -229,7 +229,7 @@ async function addEmployee(){
     employeeData = [0,employeeInfo.firstName, employeeInfo.lastName, roleID, managerID]
     await db.query("insert into tblEmployee values (?,?,?,?,?)", employeeData )
 
-    console.log("new employee has been entered")
+    console.log("New employee has been entered")
 
     main()
 
