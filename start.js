@@ -1,6 +1,7 @@
 var inquirer = require('inquirer')
 const cTable = require('console.table')
 
+// to connect the application with database
 const db = require( './app/connection' )('employee_db','rootroot')
 
 // function that return all employees
@@ -254,7 +255,6 @@ async function updateEmployeeRole(){
     getRolesName.push(getRoles[x].title)
     getAllRoles.push(getRoles[x])
     }
-
 
     const employeeUpdateRole = await inquirer.prompt([
         {

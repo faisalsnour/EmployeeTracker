@@ -21,14 +21,14 @@ The following pictures show the application's appearance and functionality;
 
 ![Screen shows a list of main options for user when running the application](/Assets/main-options.png)
 
-![Screen shows all employees and their information ..](/Assets/view-all-employees.png)
+![Screen shows all employees and their information](/Assets/view-all-employees.png)
 
-![Screen shows ..](/Assets/.png)
+![Screen shows user select department from a list](/Assets/view-all-employees-by-department.png)
+
+![Screen shows an employee from IT department](/Assets/view-employee-by-IT.png)
+
+![Screen shows a user adding new employee](/Assets/add-new-employee.png)
 
 ## Link to a walkthrough video
 
-[please click here](https://www.youtube.com/watch?v=AQEe-2J218Q)
-
-## Link to the generated readme file:
-
-[please click here](/generatedReadme.md)
+[Please click here](https://www.youtube.com/watch?v=AQEe-2J218Q)
